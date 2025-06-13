@@ -1,18 +1,21 @@
 #include <SFML/Graphics.hpp>
 #include "MenuState.h"
-#include "InstructionState.h"
 #include "Game.h"
+#include "InstructionState.h"
 
 int main() {
+    // Ustawienie okna gry
     sf::RenderWindow window(sf::VideoMode(1536, 1024), "Forest Survival Simulator");
     window.setFramerateLimit(60);
 
-    enum class State { MENU, HOWTO, GAME };
+    // Definicje stanów gry
+    enum class State { MENU, GAME, HOWTO };
     State currentState = State::MENU;
 
+    // Inicjalizacja obiektów stanu
     MenuState menu(window);
-    InstructionState instructions(window);
     Game game(window);
+    InstructionState instruction(window);
 
     while (window.isOpen()) {
         switch (currentState) {
@@ -34,10 +37,10 @@ int main() {
 
         case State::HOWTO: {
             bool backToMenu = false;
-            instructions.handleEvents(backToMenu);
-
+            instruction.handleEvents(backToMenu);
+            instruction.update();
             window.clear();
-            instructions.render();
+            instruction.render();
             window.display();
             if (backToMenu) {
                 menu.resetState();
@@ -46,13 +49,21 @@ int main() {
             break;
         }
 
-        case State::GAME:
-            game.handleEvents();
+        case State::GAME: {
+            bool backToMenu = false;
+            game.handleEvents(backToMenu);  // <-- teraz z obsługą powrotu do menu
             game.update();
             window.clear();
             game.render();
             window.display();
+
+            if (backToMenu) {
+                menu.resetState();
+                game = Game(window);  // restart gry
+                currentState = State::MENU;
+            }
             break;
+        }
         }
     }
 
