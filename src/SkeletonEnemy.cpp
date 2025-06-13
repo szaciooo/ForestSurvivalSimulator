@@ -3,6 +3,9 @@
 
 SkeletonEnemy::SkeletonEnemy(sf::Vector2f pos, float atk) : position(pos), attackStrength(atk) {
     walkTexture.loadFromFile("assets/player/BODY_skeleton.png");
+    attackTexture.loadFromFile("assets/player/BODY_skeleton_attack.png");
+    deathTexture.loadFromFile("assets/player/BODY_skeleton_hurt.png");
+    weaponTexture.loadFromFile("assets/player/WEAPON_dagger.png");
 
     sprite.setTexture(walkTexture);
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
@@ -10,14 +13,13 @@ SkeletonEnemy::SkeletonEnemy(sf::Vector2f pos, float atk) : position(pos), attac
 }
 
 void SkeletonEnemy::update(float deltaTime, sf::Vector2f playerPos) {
-    sf::Vector2f dir = playerPos - position;
-    float length = std::sqrt(dir.x * dir.x + dir.y * dir.y);
-    if (length != 0) dir /= length;
+    direction = playerPos - position;
+    float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+    if (length != 0) direction /= length;
 
-    float speed = 40.f;
-    position += dir * speed * deltaTime;
+    float speed = 70.f;
+    position += direction * speed * deltaTime;
     sprite.setPosition(position);
-
     updateAnimation();
 }
 
@@ -37,8 +39,8 @@ float SkeletonEnemy::getHealth() const {
     return health;
 }
 
-void SkeletonEnemy::takeDamage(float dmg) {
-    health -= dmg;
+void SkeletonEnemy::takeDamage(float amount) {
+    health -= amount;
 }
 
 bool SkeletonEnemy::canAttack() const {
@@ -54,5 +56,18 @@ void SkeletonEnemy::resetAttackCooldown() {
 }
 
 void SkeletonEnemy::updateAnimation() {
-    // Można rozwinąć animację
+    if (animationClock.getElapsedTime().asSeconds() > 0.2f) {
+        currentFrame = (currentFrame + 1) % 4;
+        animationClock.restart();
+    }
+
+    int row = 0;
+    if (std::abs(direction.y) > std::abs(direction.x)) {
+        row = (direction.y > 0) ? 2 : 0; // Down : Up
+    } else {
+        row = (direction.x > 0) ? 3 : 1; // Right : Left
+    }
+
+    sprite.setTexture(walkTexture);
+    sprite.setTextureRect(sf::IntRect(currentFrame * 64, row * 64, 64, 64));
 }

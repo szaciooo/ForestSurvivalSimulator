@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: ForestSurvivalSimulator_REBUILD
+# Project: ForestSurvivalSimulator
 # Configurations: Debug
 # =============================================================================
 # =============================================================================
@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\Qt\Tools\CMake_64\bin\cmake.exe --regenerate-during-build -SC:\Projekty\Complete_FSS -BC:\Projekty\Complete_FSS\build\Desktop_Qt_6_9_1_MinGW_64_bit-Debug
+  command = C:\Qt\Tools\CMake_64\bin\cmake.exe --regenerate-during-build -SC:\Projekty\ForestSurvivalSimulator -BC:\Projekty\ForestSurvivalSimulator\build\Desktop_Qt_6_9_1_MinGW_64_bit-Debug
   description = Re-running CMake...
   generator = 1
 

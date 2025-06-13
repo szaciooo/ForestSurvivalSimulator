@@ -19,12 +19,20 @@ public:
 
 private:
     sf::Vector2f position;
+    sf::Vector2f direction;
     sf::Sprite sprite;
 
     sf::Texture walkTexture;
+    sf::Texture attackTexture;
+    sf::Texture deathTexture;
+    sf::Texture weaponTexture;
+
     float health = 100.f;
     float attackStrength = 5.f;
     sf::Clock attackClock;
+
+    int currentFrame = 0;
+    sf::Clock animationClock;
 
     void updateAnimation();
 };
