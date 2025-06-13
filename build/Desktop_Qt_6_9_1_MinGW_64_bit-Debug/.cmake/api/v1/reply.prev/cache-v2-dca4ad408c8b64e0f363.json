@@ -939,7 +939,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "ForestSurvivalSimulator"
+			"value" : "ForestSurvivalSimulator_REBUILD"
 		},
 		{
 			"name" : "CMAKE_RANLIB",

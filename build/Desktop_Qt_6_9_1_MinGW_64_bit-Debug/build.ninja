@@ -49,6 +49,13 @@ cmake_ninja_workdir = C$:/Projekty/Complete_FSS/build/Desktop_Qt_6_9_1_MinGW_64_
 
 build cmake_object_order_depends_target_ForestSurvivalSimulator: phony || .
 
+build CMakeFiles/ForestSurvivalSimulator.dir/src/Game.cpp.obj: CXX_COMPILER__ForestSurvivalSimulator_unscanned_Debug C$:/Projekty/Complete_FSS/src/Game.cpp || cmake_object_order_depends_target_ForestSurvivalSimulator
+  DEP_FILE = CMakeFiles\ForestSurvivalSimulator.dir\src\Game.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IC:/Projekty/Complete_FSS/include -isystem C:/SFML/include
+  OBJECT_DIR = CMakeFiles\ForestSurvivalSimulator.dir
+  OBJECT_FILE_DIR = CMakeFiles\ForestSurvivalSimulator.dir\src
+
 build CMakeFiles/ForestSurvivalSimulator.dir/src/InstructionState.cpp.obj: CXX_COMPILER__ForestSurvivalSimulator_unscanned_Debug C$:/Projekty/Complete_FSS/src/InstructionState.cpp || cmake_object_order_depends_target_ForestSurvivalSimulator
   DEP_FILE = CMakeFiles\ForestSurvivalSimulator.dir\src\InstructionState.cpp.obj.d
   FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
@@ -58,6 +65,13 @@ build CMakeFiles/ForestSurvivalSimulator.dir/src/InstructionState.cpp.obj: CXX_C
 
 build CMakeFiles/ForestSurvivalSimulator.dir/src/MenuState.cpp.obj: CXX_COMPILER__ForestSurvivalSimulator_unscanned_Debug C$:/Projekty/Complete_FSS/src/MenuState.cpp || cmake_object_order_depends_target_ForestSurvivalSimulator
   DEP_FILE = CMakeFiles\ForestSurvivalSimulator.dir\src\MenuState.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IC:/Projekty/Complete_FSS/include -isystem C:/SFML/include
+  OBJECT_DIR = CMakeFiles\ForestSurvivalSimulator.dir
+  OBJECT_FILE_DIR = CMakeFiles\ForestSurvivalSimulator.dir\src
+
+build CMakeFiles/ForestSurvivalSimulator.dir/src/Player.cpp.obj: CXX_COMPILER__ForestSurvivalSimulator_unscanned_Debug C$:/Projekty/Complete_FSS/src/Player.cpp || cmake_object_order_depends_target_ForestSurvivalSimulator
+  DEP_FILE = CMakeFiles\ForestSurvivalSimulator.dir\src\Player.cpp.obj.d
   FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
   INCLUDES = -IC:/Projekty/Complete_FSS/include -isystem C:/SFML/include
   OBJECT_DIR = CMakeFiles\ForestSurvivalSimulator.dir
@@ -78,7 +92,7 @@ build CMakeFiles/ForestSurvivalSimulator.dir/src/main.cpp.obj: CXX_COMPILER__For
 #############################################
 # Link the executable ForestSurvivalSimulator.exe
 
-build ForestSurvivalSimulator.exe: CXX_EXECUTABLE_LINKER__ForestSurvivalSimulator_Debug CMakeFiles/ForestSurvivalSimulator.dir/src/InstructionState.cpp.obj CMakeFiles/ForestSurvivalSimulator.dir/src/MenuState.cpp.obj CMakeFiles/ForestSurvivalSimulator.dir/src/main.cpp.obj | C$:/SFML/lib/libsfml-graphics-d.a C$:/SFML/lib/libsfml-window-d.a C$:/SFML/lib/libsfml-system-d.a
+build ForestSurvivalSimulator.exe: CXX_EXECUTABLE_LINKER__ForestSurvivalSimulator_Debug CMakeFiles/ForestSurvivalSimulator.dir/src/Game.cpp.obj CMakeFiles/ForestSurvivalSimulator.dir/src/InstructionState.cpp.obj CMakeFiles/ForestSurvivalSimulator.dir/src/MenuState.cpp.obj CMakeFiles/ForestSurvivalSimulator.dir/src/Player.cpp.obj CMakeFiles/ForestSurvivalSimulator.dir/src/main.cpp.obj | C$:/SFML/lib/libsfml-graphics-d.a C$:/SFML/lib/libsfml-window-d.a C$:/SFML/lib/libsfml-system-d.a
   FLAGS = -DQT_QML_DEBUG -g
   LINK_LIBRARIES = C:/SFML/lib/libsfml-graphics-d.a  C:/SFML/lib/libsfml-window-d.a  C:/SFML/lib/libsfml-system-d.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\ForestSurvivalSimulator.dir

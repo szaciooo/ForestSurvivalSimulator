@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "ForestSurvivalSimulator",
+					"name" : "ForestSurvivalSimulator_REBUILD",
 					"targetIndexes" : 
 					[
 						0
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ForestSurvivalSimulator::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ForestSurvivalSimulator-Debug-6a2c2590e1e873d28baa.json",
+					"jsonFile" : "target-ForestSurvivalSimulator-Debug-98571ac5d9db45a68a47.json",
 					"name" : "ForestSurvivalSimulator",
 					"projectIndex" : 0
 				}
