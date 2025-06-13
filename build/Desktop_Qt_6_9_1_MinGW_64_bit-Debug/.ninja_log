@@ -7,3 +7,9 @@
 28	542	7715517777608120	CMakeFiles/ForestSurvivalSimulator.dir/src/Player.cpp.obj	9cd9b0ca9506bb29
 11	520	7715519573664163	CMakeFiles/ForestSurvivalSimulator.dir/src/SkeletonEnemy.cpp.obj	57c823c40aaaef9d
 523	675	7715519578781648	ForestSurvivalSimulator.exe	fe55a672e84a6454
+30	546	7715522455285325	CMakeFiles/ForestSurvivalSimulator.dir/src/SkeletonEnemy.cpp.obj	57c823c40aaaef9d
+34	547	7715522455325948	CMakeFiles/ForestSurvivalSimulator.dir/src/main.cpp.obj	d83a717019e8ba14
+32	542	7715524003050441	CMakeFiles/ForestSurvivalSimulator.dir/src/Player.cpp.obj	9cd9b0ca9506bb29
+37	564	7715524003091228	CMakeFiles/ForestSurvivalSimulator.dir/src/main.cpp.obj	d83a717019e8ba14
+19	564	7715524002913476	CMakeFiles/ForestSurvivalSimulator.dir/src/Game.cpp.obj	61d953eaa314995e
+564	723	7715524008367858	ForestSurvivalSimulator.exe	fe55a672e84a6454

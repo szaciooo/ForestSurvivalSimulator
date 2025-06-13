@@ -1,18 +1,20 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-// Klasa reprezentująca gracza sterowanego przez użytkownika
 class Player {
 public:
     Player();
 
-    void update(float deltaTime);         // Aktualizacja pozycji i animacji
-    void render(sf::RenderWindow& window); // Renderowanie postaci
+    void update(float deltaTime);
+    void render(sf::RenderWindow& window);
+
+    sf::FloatRect getBounds() const;
+    sf::Vector2f getPosition() const; // <- dodane
 
 private:
-    void handleInput();        // Obsługa klawiatury
-    void loadTextures();       // Ładowanie grafik
-    void updateAnimation();    // Animacja (jeszcze uproszczona)
+    void handleInput();
+    void loadTextures();
+    void updateAnimation();
 
     sf::Texture walkTexture;
     sf::Sprite sprite;

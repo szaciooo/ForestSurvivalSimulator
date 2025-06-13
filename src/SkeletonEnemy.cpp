@@ -2,31 +2,26 @@
 #include <cmath>
 
 SkeletonEnemy::SkeletonEnemy(sf::Vector2f pos) : position(pos) {
-    walkTexture.loadFromFile("assets/player/BODY_skeleton.png");
-    sprite.setTexture(walkTexture);
+    texture.loadFromFile("assets/player/BODY_skeleton.png");
+    sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
     sprite.setPosition(position);
 }
 
 void SkeletonEnemy::update(float deltaTime, sf::Vector2f playerPos) {
-    // Oblicz kierunek do gracza
-    sf::Vector2f dir = playerPos - position;
-    float len = std::sqrt(dir.x * dir.x + dir.y * dir.y);
-    if (len != 0)
-        dir /= len;
+    sf::Vector2f direction = playerPos - position;
+    float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+    if (length != 0) direction /= length;
 
     float speed = 40.f;
-    position += dir * speed * deltaTime;
-
+    position += direction * speed * deltaTime;
     sprite.setPosition(position);
-    updateAnimation();
 }
 
 void SkeletonEnemy::render(sf::RenderWindow& window) {
     window.draw(sprite);
 }
 
-void SkeletonEnemy::updateAnimation() {
-    // Prosty placeholder, bez klatek jeszcze
-    // Można rozbudować później (milestone)
+sf::FloatRect SkeletonEnemy::getBounds() const {
+    return sprite.getGlobalBounds();
 }
