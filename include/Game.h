@@ -7,7 +7,7 @@
 class Game {
 public:
     Game(sf::RenderWindow& window);
-    void handleEvents();
+    void handleEvents(bool& backToMenu);
     void update();
     void render();
 
@@ -22,6 +22,13 @@ private:
     int wave = 1;
     sf::Clock clock;
     sf::Clock lastRegenTime;
+
+    enum class GameState { Playing, Won, Lost };
+    GameState state = GameState::Playing;
+
+    sf::Text endText;
+    sf::Text xText;
+    sf::RectangleShape xHitbox;
 
     void spawnWave();
     void drawUI();
