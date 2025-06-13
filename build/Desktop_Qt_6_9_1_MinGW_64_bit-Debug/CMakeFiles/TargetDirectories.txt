@@ -1,3 +1,0 @@
-C:/Projekty/ForestSurvivalSimulator/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/ForestSurvivalSimulator.dir
-C:/Projekty/ForestSurvivalSimulator/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-C:/Projekty/ForestSurvivalSimulator/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
