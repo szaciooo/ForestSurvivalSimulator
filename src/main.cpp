@@ -19,6 +19,7 @@ int main() {
         case State::MENU:
             menu.handleEvents();
             if (menu.shouldStartGame()) {
+                game = Game(window); // restart gry
                 currentState = State::GAME;
                 break;
             }
@@ -35,7 +36,7 @@ int main() {
         case State::HOWTO: {
             bool backToMenu = false;
             instruction.handleEvents(backToMenu);
-
+            instruction.update();
             window.clear();
             instruction.render();
             window.display();

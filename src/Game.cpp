@@ -143,15 +143,16 @@ void Game::drawUI() {
     window.draw(text);
 }
 
-void Game::drawHealthBar(sf::Vector2f pos, float hp, float maxHp) {
+void Game::drawHealthBar(sf::Vector2f pos, float hp, float maxHp, bool isPlayer) {
     sf::RectangleShape bg(sf::Vector2f(40, 5));
     bg.setFillColor(sf::Color(50, 50, 50));
     bg.setPosition(pos.x + 12, pos.y - 10);
 
     sf::RectangleShape hpBar(sf::Vector2f(40 * (hp / maxHp), 5));
-    hpBar.setFillColor(sf::Color::Green);
+    hpBar.setFillColor(isPlayer ? sf::Color::Green : sf::Color::Red);
     hpBar.setPosition(pos.x + 12, pos.y - 10);
 
     window.draw(bg);
     window.draw(hpBar);
 }
+
