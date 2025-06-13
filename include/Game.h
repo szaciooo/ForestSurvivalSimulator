@@ -8,7 +8,7 @@ class Game {
 public:
     Game(sf::RenderWindow& window);
 
-    void handleEvents();
+    void handleEvents(bool& backToMenu); // zmiana: potrzebne do wyjścia do menu
     void update();
     void render();
 
@@ -26,7 +26,15 @@ private:
     sf::Clock lastRegenTime;
     bool showStats = false;
 
+    bool gameOver = false;
+    bool gameWon = false;
+
+    sf::Text statusText;
+    sf::Text xText;
+    sf::RectangleShape xHitbox;
+
     void spawnWave();
     void drawUI();
     void drawHealthBar(sf::Vector2f pos, float hp, float maxHp, bool isPlayer);
+    void handleGameEnd();
 };
