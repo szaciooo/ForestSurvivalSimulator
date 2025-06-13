@@ -939,7 +939,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "ForestSurvivalSimulator_REBUILD"
+			"value" : "ForestSurvivalSimulator"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1334,6 +1334,30 @@
 			"value" : "FALSE"
 		},
 		{
+			"name" : "ForestSurvivalSimulator_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Projekty/Complete_FSS/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug"
+		},
+		{
+			"name" : "ForestSurvivalSimulator_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
 			"name" : "ForestSurvivalSimulator_REBUILD_BINARY_DIR",
 			"properties" : 
 			[
@@ -1359,6 +1383,18 @@
 		},
 		{
 			"name" : "ForestSurvivalSimulator_REBUILD_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Projekty/Complete_FSS"
+		},
+		{
+			"name" : "ForestSurvivalSimulator_SOURCE_DIR",
 			"properties" : 
 			[
 				{
