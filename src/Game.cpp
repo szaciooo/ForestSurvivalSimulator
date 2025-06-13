@@ -1,28 +1,25 @@
 #include "Game.h"
 #include <sstream>
-#include <iostream>
 #include <algorithm>
+#include <cmath>
 
 Game::Game(sf::RenderWindow& window) : window(window), player() {
-    if (!mapTexture.loadFromFile("assets/maps/forest_map.png")) {
-        throw std::runtime_error("Nie udało się załadować mapy!");
-    }
+    mapTexture.loadFromFile("assets/maps/forest_map.png");
     mapSprite.setTexture(mapTexture);
     mapSprite.setScale(
-        static_cast<float>(window.getSize().x) / mapTexture.getSize().x,
-        static_cast<float>(window.getSize().y) / mapTexture.getSize().y
+        (float)window.getSize().x / mapTexture.getSize().x,
+        (float)window.getSize().y / mapTexture.getSize().y
         );
 
     font.loadFromFile("assets/fonts/PixelFont.ttf");
-
-    spawnEnemies();
+    spawnWave();
+    lastRegenTime.restart();
 }
 
 void Game::handleEvents() {
     sf::Event event;
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
-            window.close();
+        if (event.type == sf::Event::Closed) window.close();
     }
 }
 
@@ -34,7 +31,6 @@ void Game::update() {
         enemy.update(deltaTime, player.getPosition());
     }
 
-    // Atak gracza
     if (player.isAttacking()) {
         for (auto& enemy : skeletons) {
             if (player.getAttackBounds().intersects(enemy.getBounds())) {
@@ -43,16 +39,26 @@ void Game::update() {
         }
     }
 
-    // Usuwanie martwych przeciwników i leczenie
-    skeletons.erase(std::remove_if(skeletons.begin(), skeletons.end(),
-                                   [&](const SkeletonEnemy& e) {
-                                       if (e.getHealth() <= 0) {
-                                           player.heal(5.f);
-                                           return true;
-                                       }
-                                       return false;
-                                   }),
-                    skeletons.end());
+    for (auto& enemy : skeletons) {
+        if (enemy.getBounds().intersects(player.getBounds())) {
+            player.takeDamage(1.f);
+        }
+    }
+
+    // Usuwanie martwych
+    skeletons.erase(std::remove_if(skeletons.begin(), skeletons.end(), [&](SkeletonEnemy& e) {
+                        if (e.getHealth() <= 0) {
+                            player.heal(7.f);  // więcej leczenia
+                            return true;
+                        }
+                        return false;
+                    }), skeletons.end());
+
+    // Nowa fala
+    if (skeletons.empty() && wave < 10) {
+        wave++;
+        spawnWave();
+    }
 }
 
 void Game::render() {
@@ -61,27 +67,44 @@ void Game::render() {
 
     for (auto& enemy : skeletons) {
         enemy.render(window);
-        drawHealthBar(enemy.getPosition(), enemy.getHealth(), 100.f);
+        drawHealthBar(enemy.getPosition(), enemy.getHealth(), 100.f, false);
     }
 
-    drawHealthBar(player.getPosition(), player.getHealth(), 100.f);
+    drawHealthBar(player.getPosition(), player.getHealth(), 100.f, true);
+    drawUI();
 }
 
-void Game::spawnEnemies() {
+void Game::spawnWave() {
     skeletons.clear();
-    skeletons.emplace_back(sf::Vector2f(400.f, 300.f));
-    skeletons.emplace_back(sf::Vector2f(500.f, 500.f));
+    int count = 2 + wave;
+    for (int i = 0; i < count; ++i) {
+        sf::Vector2f pos(rand() % 1400 + 50, rand() % 900 + 50);
+        skeletons.emplace_back(pos);
+    }
 }
 
-void Game::drawHealthBar(sf::Vector2f pos, float hp, float maxHp) {
+void Game::drawUI() {
+    sf::Text info;
+    info.setFont(font);
+    info.setCharacterSize(26);
+    info.setFillColor(sf::Color::White);
+
+    std::stringstream ss;
+    ss << "Fala: " << wave << "/10  |  Wrogowie: " << skeletons.size();
+    info.setString(ss.str());
+    info.setPosition(20, 20);
+    window.draw(info);
+}
+
+void Game::drawHealthBar(sf::Vector2f pos, float hp, float maxHp, bool isPlayer) {
     sf::RectangleShape bg(sf::Vector2f(40, 5));
     bg.setFillColor(sf::Color(50, 50, 50));
     bg.setPosition(pos.x + 12, pos.y - 10);
 
-    sf::RectangleShape hpBar(sf::Vector2f(40 * (hp / maxHp), 5));
-    hpBar.setFillColor(sf::Color::Red);
-    hpBar.setPosition(pos.x + 12, pos.y - 10);
+    sf::RectangleShape bar(sf::Vector2f(40 * (hp / maxHp), 5));
+    bar.setFillColor(isPlayer ? sf::Color::Green : sf::Color::Red);
+    bar.setPosition(pos.x + 12, pos.y - 10);
 
     window.draw(bg);
-    window.draw(hpBar);
+    window.draw(bar);
 }

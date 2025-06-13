@@ -20,7 +20,10 @@ private:
 
     Player player;
     std::vector<SkeletonEnemy> skeletons;
+    int wave = 1;
+    sf::Clock lastRegenTime;
 
-    void spawnEnemies();
-    void drawHealthBar(sf::Vector2f pos, float hp, float maxHp);
+    void spawnWave();
+    void drawUI();
+    void drawHealthBar(sf::Vector2f pos, float hp, float maxHp, bool isPlayer);
 };
