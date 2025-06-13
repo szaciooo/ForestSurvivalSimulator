@@ -1,71 +1,62 @@
 #include <SFML/Graphics.hpp>
 #include "MenuState.h"
-#include "Game.h"
 #include "InstructionState.h"
+#include "Game.h"
 
 int main() {
-    // Ustawienie okna gry
     sf::RenderWindow window(sf::VideoMode(1536, 1024), "Forest Survival Simulator");
     window.setFramerateLimit(60);
 
-    // Definicje stanów gry
-    enum class State { MENU, GAME, HOWTO };
+    enum class State { MENU, HOWTO, GAME };
     State currentState = State::MENU;
 
-    // Inicjalizacja obiektów stanu
     MenuState menu(window);
-    Game game(window);
     InstructionState instruction(window);
+    Game* game = nullptr;
 
     while (window.isOpen()) {
         switch (currentState) {
         case State::MENU:
             menu.handleEvents();
-            if (menu.shouldStartGame()) {
-                currentState = State::GAME;
-                break;
-            }
-            if (menu.shouldShowInstructions()) {
-                currentState = State::HOWTO;
-                break;
-            }
             menu.update();
             window.clear();
             menu.render();
             window.display();
+
+            if (menu.shouldShowInstructions()) {
+                currentState = State::HOWTO;
+                menu.resetState();
+            } else if (menu.shouldStartGame()) {
+                if (game) delete game;
+                game = new Game(window);
+                currentState = State::GAME;
+                menu.resetState();
+            }
             break;
 
         case State::HOWTO: {
-            bool backToMenu = false;
-            instruction.handleEvents(backToMenu);
-            instruction.update();
+            bool back = false;
+            instruction.handleEvents(back);
             window.clear();
             instruction.render();
             window.display();
-            if (backToMenu) {
-                menu.resetState();
+
+            if (back) {
                 currentState = State::MENU;
             }
             break;
         }
 
-        case State::GAME: {
-            bool backToMenu = false;
-            game.handleEvents(backToMenu);  // <-- teraz z obsługą powrotu do menu
-            game.update();
+        case State::GAME:
+            game->handleEvents();
+            game->update();
             window.clear();
-            game.render();
+            game->render();
             window.display();
-
-            if (backToMenu) {
-                menu.resetState();
-                game = Game(window);  // restart gry
-                currentState = State::MENU;
-            }
             break;
-        }
         }
     }
 
+    delete game;
     return 0;
 }
