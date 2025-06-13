@@ -9,12 +9,12 @@ SkeletonEnemy::SkeletonEnemy(sf::Vector2f pos) : position(pos) {
 }
 
 void SkeletonEnemy::update(float deltaTime, sf::Vector2f playerPos) {
-    sf::Vector2f direction = playerPos - position;
-    float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-    if (length != 0) direction /= length;
+    sf::Vector2f dir = playerPos - position;
+    float len = std::sqrt(dir.x * dir.x + dir.y * dir.y);
+    if (len > 0) dir /= len;
 
     float speed = 40.f;
-    position += direction * speed * deltaTime;
+    position += dir * speed * deltaTime;
     sprite.setPosition(position);
 }
 
@@ -24,4 +24,16 @@ void SkeletonEnemy::render(sf::RenderWindow& window) {
 
 sf::FloatRect SkeletonEnemy::getBounds() const {
     return sprite.getGlobalBounds();
+}
+
+sf::Vector2f SkeletonEnemy::getPosition() const {
+    return position;
+}
+
+float SkeletonEnemy::getHealth() const {
+    return health;
+}
+
+void SkeletonEnemy::takeDamage(float amount) {
+    health -= amount;
 }

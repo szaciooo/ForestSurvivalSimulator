@@ -7,7 +7,6 @@
 class Game {
 public:
     Game(sf::RenderWindow& window);
-
     void handleEvents();
     void update();
     void render();
@@ -20,7 +19,8 @@ private:
     sf::Font font;
 
     Player player;
-    std::vector<SkeletonEnemy> skeletons; // Dodano: lista szkieletów
+    std::vector<SkeletonEnemy> skeletons;
 
-    void spawnWave(); // Dodano: tworzenie fali wrogów
+    void spawnEnemies();
+    void drawHealthBar(sf::Vector2f pos, float hp, float maxHp);
 };

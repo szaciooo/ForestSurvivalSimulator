@@ -1,80 +1,44 @@
 #include "Player.h"
-#include <iostream>
+#include <SFML/Window/Keyboard.hpp>
 #include <algorithm>
 
 Player::Player() {
     position = sf::Vector2f(700.f, 500.f);
-    loadTextures();
 
-    sprite.setTexture(walkTexture);
+    texture.loadFromFile("assets/player/BODY_male_walk.png");
+    sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
     sprite.setPosition(position);
 }
 
-void Player::loadTextures() {
-    if (!walkTexture.loadFromFile("assets/player/BODY_male_walk.png")) {
-        std::cerr << "Failed to load walk texture!" << std::endl;
-    }
-}
-
-void Player::handleInput() {
-    velocity = {0.f, 0.f};
-    moving = false;
+void Player::update(float deltaTime) {
+    sf::Vector2f velocity(0.f, 0.f);
+    attacking = false;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         velocity.x -= speed;
-        direction = Left;
-        moving = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         velocity.x += speed;
-        direction = Right;
-        moving = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         velocity.y -= speed;
-        direction = Up;
-        moving = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         velocity.y += speed;
-        direction = Down;
-        moving = true;
     }
-}
 
-void Player::update(float deltaTime) {
-    handleInput();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        attacking = true;
+    }
 
     position += velocity * deltaTime;
 
+    // Zapobiegamy wyjściu poza ekran
     position.x = std::clamp(position.x, 0.f, 1536.f - 64.f);
     position.y = std::clamp(position.y, 0.f, 1024.f - 64.f);
 
     sprite.setPosition(position);
-
-    updateAnimation();
-}
-
-void Player::updateAnimation() {
-    if (animationClock.getElapsedTime().asSeconds() > frameDuration) {
-        currentFrame = (currentFrame + 1) % 6;
-        animationClock.restart();
-    }
-
-    int row = 0;
-    switch (direction) {
-    case Down:  row = 0; break;
-    case Left:  row = 1; break;
-    case Right: row = 2; break;
-    case Up:    row = 3; break;
-    }
-
-    if (moving) {
-        sprite.setTextureRect(sf::IntRect(currentFrame * 64, row * 64, 64, 64));
-    } else {
-        sprite.setTextureRect(sf::IntRect(0, row * 64, 64, 64));
-    }
 }
 
 void Player::render(sf::RenderWindow& window) {
@@ -85,6 +49,36 @@ sf::FloatRect Player::getBounds() const {
     return sprite.getGlobalBounds();
 }
 
+sf::FloatRect Player::getAttackBounds() const {
+    sf::FloatRect bounds = sprite.getGlobalBounds();
+    bounds.width += 10;
+    bounds.height += 10;
+    bounds.left -= 5;
+    bounds.top -= 5;
+    return bounds;
+}
+
 sf::Vector2f Player::getPosition() const {
     return position;
+}
+
+bool Player::isAttacking() const {
+    return attacking;
+}
+
+float Player::getHealth() const {
+    return health;
+}
+
+float Player::getAttackStrength() const {
+    return attackStrength;
+}
+
+void Player::takeDamage(float dmg) {
+    health -= dmg;
+    if (health < 0.f) health = 0.f;
+}
+
+void Player::heal(float amount) {
+    health = std::min(health + amount, 100.f);
 }

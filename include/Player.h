@@ -9,24 +9,24 @@ public:
     void render(sf::RenderWindow& window);
 
     sf::FloatRect getBounds() const;
-    sf::Vector2f getPosition() const; // <- dodane
+    sf::FloatRect getAttackBounds() const;
+    sf::Vector2f getPosition() const;
+
+    bool isAttacking() const;
+    float getHealth() const;
+    float getAttackStrength() const;
+
+    void takeDamage(float dmg);
+    void heal(float amount);
 
 private:
-    void handleInput();
-    void loadTextures();
-    void updateAnimation();
-
-    sf::Texture walkTexture;
+    sf::Vector2f position;
+    sf::Texture texture;
     sf::Sprite sprite;
 
-    sf::Vector2f position;
-    sf::Vector2f velocity;
+    float health = 100.f;
+    float attackStrength = 10.f;
+
+    bool attacking = false;
     float speed = 100.f;
-
-    enum Direction { Down, Left, Right, Up } direction = Down;
-    int currentFrame = 0;
-    float frameDuration = 0.15f;
-    sf::Clock animationClock;
-
-    bool moving = false;
 };

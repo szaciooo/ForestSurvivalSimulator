@@ -9,9 +9,15 @@ public:
     void render(sf::RenderWindow& window);
 
     sf::FloatRect getBounds() const;
+    sf::Vector2f getPosition() const;
+    float getHealth() const;
+
+    void takeDamage(float amount);
 
 private:
     sf::Vector2f position;
-    sf::Sprite sprite;
     sf::Texture texture;
+    sf::Sprite sprite;
+
+    float health = 100.f;
 };
