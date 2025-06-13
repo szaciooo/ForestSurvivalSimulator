@@ -5,7 +5,6 @@ class InstructionState {
 public:
     InstructionState(sf::RenderWindow& window);
     void handleEvents(bool& backToMenu);
-    void update();
     void render();
 
 private:

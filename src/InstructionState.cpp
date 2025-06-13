@@ -1,23 +1,16 @@
 #include "InstructionState.h"
-#include <iostream>
 
 InstructionState::InstructionState(sf::RenderWindow& window) : window(window) {
     backgroundTexture.loadFromFile("assets/backgrounds/menu_bg1.png");
     backgroundSprite.setTexture(backgroundTexture);
-    backgroundSprite.setColor(sf::Color(255, 255, 255, 150));
 
     font.loadFromFile("assets/fonts/PixelFont.ttf");
 
     instructions.setFont(font);
     instructions.setCharacterSize(32);
     instructions.setFillColor(sf::Color::White);
-    instructions.setString(
-        "STEROWANIE:\n"
-        "WASD - poruszanie\n"
-        "SPACE - atak\n"
-        "I - statystyki");
-
-    instructions.setPosition(500.f, 300.f);
+    instructions.setString("WASD - poruszanie\nSPACJA - atak\nI - statystyki");
+    instructions.setPosition(600.f, 600.f);
 
     xText.setFont(font);
     xText.setCharacterSize(32);
@@ -33,13 +26,16 @@ InstructionState::InstructionState(sf::RenderWindow& window) : window(window) {
 void InstructionState::handleEvents(bool& backToMenu) {
     sf::Event event;
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed) {
             window.close();
-        else if (event.type == sf::Event::MouseMoved)
+        }
+        else if (event.type == sf::Event::MouseMoved) {
             updateHover();
+        }
         else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-            if (hovered)
+            if (hovered) {
                 backToMenu = true;
+            }
         }
     }
 }
@@ -54,8 +50,6 @@ void InstructionState::updateHover() {
         xText.setFillColor(sf::Color::White);
     }
 }
-
-void InstructionState::update() {}
 
 void InstructionState::render() {
     window.draw(backgroundSprite);
