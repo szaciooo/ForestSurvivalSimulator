@@ -6,7 +6,7 @@
 
 Game::Game(sf::RenderWindow& window) : window(window), player() {
     if (!mapTexture.loadFromFile("assets/maps/forest_map.png")) {
-        throw std::runtime_error("Nie udało się załadować mapy!");
+        throw std::runtime_error("Nie udało się załadować mapy.");
     }
     mapSprite.setTexture(mapTexture);
     mapSprite.setScale(
@@ -15,7 +15,7 @@ Game::Game(sf::RenderWindow& window) : window(window), player() {
         );
 
     if (!font.loadFromFile("assets/fonts/PixelFont.ttf")) {
-        throw std::runtime_error("Nie udało się załadować czcionki!");
+        throw std::runtime_error("Nie udało się załadować czcionki.");
     }
 
     spawnWave();
@@ -27,9 +27,8 @@ void Game::handleEvents() {
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             window.close();
-        if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::I)
-                showStats = !showStats;
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I) {
+            showStats = !showStats;
         }
     }
 }
@@ -42,7 +41,7 @@ void Game::update() {
         enemy.update(deltaTime, player.getPosition());
     }
 
-    // Atak gracza – sprawdzanie kolizji
+    // Atak gracza
     if (player.isAttacking()) {
         for (auto& enemy : skeletons) {
             if (player.getAttackBounds().intersects(enemy.getBounds())) {
@@ -51,7 +50,7 @@ void Game::update() {
         }
     }
 
-    // Ataki wrogów
+    // Atak wroga
     for (auto& enemy : skeletons) {
         if (enemy.getBounds().intersects(player.getBounds()) && enemy.canAttack()) {
             player.takeDamage(enemy.getAttackStrength());
@@ -59,62 +58,80 @@ void Game::update() {
         }
     }
 
-    // Usuwanie martwych przeciwników + leczenie gracza
-    skeletons.erase(std::remove_if(skeletons.begin(), skeletons.end(), [&](SkeletonEnemy& e) {
-                        if (e.getHealth() <= 0) {
-                            player.heal(5.f); // leczy się po zabiciu
-                            return true;
-                        }
-                        return false;
-                    }), skeletons.end());
+    // Usuwanie martwych przeciwników
+    skeletons.erase(
+        std::remove_if(skeletons.begin(), skeletons.end(), [&](SkeletonEnemy& e) {
+            if (e.getHealth() <= 0.f) {
+                player.heal(3.f);  // nagroda za zabicie
+                return true;
+            }
+            return false;
+        }),
+        skeletons.end()
+        );
 
-    // Regeneracja co kilka sekund
+    // Regeneracja zdrowia co 3s
     if (lastRegenTime.getElapsedTime().asSeconds() > 3.f) {
         player.heal(1.f);
         lastRegenTime.restart();
     }
 
-    // Nowa fala po pokonaniu wszystkich
     if (skeletons.empty() && wave < 10) {
-        wave++;
+        ++wave;
         spawnWave();
     }
 }
 
 void Game::render() {
     window.draw(mapSprite);
-
     player.render(window);
+
+    drawHealthBar(player.getPosition(), player.getHealth(), 100.f, true);
 
     for (auto& enemy : skeletons) {
         enemy.render(window);
         drawHealthBar(enemy.getPosition(), enemy.getHealth(), 100.f, false);
     }
 
-    drawHealthBar(player.getPosition(), player.getHealth(), 100.f, true);
     drawUI();
 }
 
 void Game::spawnWave() {
-    int count = 3 + wave;
     skeletons.clear();
-
+    int count = 3 + wave;
     for (int i = 0; i < count; ++i) {
         sf::Vector2f pos(rand() % 1400 + 50, rand() % 900 + 50);
-        skeletons.emplace_back(pos, wave * 0.8f + 2.f);
+        skeletons.emplace_back(pos, wave * 0.7f + 2.f);
     }
 }
 
 void Game::drawUI() {
-    sf::Text waveText;
-    waveText.setFont(font);
-    waveText.setCharacterSize(28);
-    waveText.setFillColor(sf::Color::White);
+    sf::Text topLeft;
+    topLeft.setFont(font);
+    topLeft.setCharacterSize(28);
+    topLeft.setFillColor(sf::Color::White);
     std::stringstream ss;
     ss << "Fala: " << wave << "/10 | Wrogowie: " << skeletons.size();
-    waveText.setString(ss.str());
-    waveText.setPosition(10, 10);
-    window.draw(waveText);
+    topLeft.setString(ss.str());
+    topLeft.setPosition(10, 10);
+    window.draw(topLeft);
+
+    if (showStats) {
+        sf::Text stats;
+        stats.setFont(font);
+        stats.setCharacterSize(26);
+        stats.setFillColor(sf::Color::White);
+        std::stringstream ss2;
+        ss2 << "Zdrowie: " << (int)player.getHealth() << "\n";
+        ss2 << "Sila: " << (int)player.getAttackStrength() << "\n";
+        ss2 << "Szybkosc: 100";
+        stats.setString(ss2.str());
+
+        float textWidth = stats.getLocalBounds().width;
+        float x = window.getSize().x - textWidth - 20;
+        stats.setPosition(x, 20);
+        window.draw(stats);
+    }
 }
 
 void Game::drawHealthBar(sf::Vector2f pos, float hp, float maxHp, bool isPlayer) {

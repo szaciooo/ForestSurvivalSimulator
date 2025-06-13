@@ -7,6 +7,7 @@
 class Game {
 public:
     Game(sf::RenderWindow& window);
+
     void handleEvents();
     void update();
     void render();
@@ -23,11 +24,9 @@ private:
 
     int wave = 1;
     sf::Clock lastRegenTime;
-
-    bool showStats = false; // <-- TA LINIA JEST WYMAGANA
+    bool showStats = false;
 
     void spawnWave();
     void drawUI();
     void drawHealthBar(sf::Vector2f pos, float hp, float maxHp, bool isPlayer);
-
 };
