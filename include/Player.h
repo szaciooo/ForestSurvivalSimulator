@@ -20,13 +20,25 @@ public:
     void heal(float amount);
 
 private:
+    void handleInput();
+    void loadTextures();
+    void updateAnimation();
+
+    sf::Texture walkTexture, bodyWeaponTexture, weaponTexture;
+    sf::Sprite sprite, weaponSprite;
+
     sf::Vector2f position;
-    sf::Texture texture;
-    sf::Sprite sprite;
-
-    float health = 100.f;
-    float attackStrength = 10.f;
-
-    bool attacking = false;
+    sf::Vector2f velocity;
     float speed = 100.f;
+
+    enum Direction { Down, Left, Right, Up } direction = Down;
+    int currentFrame = 0;
+    float frameDuration = 0.15f;
+    sf::Clock animationClock;
+
+    bool moving = false;
+    bool attacking = false;
+
+    float currentHealth = 100.f;
+    float attackPower = 10.f;
 };
