@@ -7,3 +7,7 @@
 11	527	7715514738535516	CMakeFiles/ForestSurvivalSimulator.dir/src/Game.cpp.obj	61d953eaa314995e
 17	513	7715515002755613	CMakeFiles/ForestSurvivalSimulator.dir/src/main.cpp.obj	d83a717019e8ba14
 514	675	7715515007719444	ForestSurvivalSimulator.exe	c1b8aad63237b098
+15	539	7715517777471336	CMakeFiles/ForestSurvivalSimulator.dir/src/Game.cpp.obj	61d953eaa314995e
+28	542	7715517777608120	CMakeFiles/ForestSurvivalSimulator.dir/src/Player.cpp.obj	9cd9b0ca9506bb29
+32	575	7715517777643700	CMakeFiles/ForestSurvivalSimulator.dir/src/main.cpp.obj	d83a717019e8ba14
+575	724	7715517783074866	ForestSurvivalSimulator.exe	c1b8aad63237b098
